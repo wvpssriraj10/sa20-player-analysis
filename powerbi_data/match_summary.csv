@@ -1,0 +1,67 @@
+match_id,start_date,venue,batting_team,bowling_team,runs_off_bat,extras,wicket_type,total_runs,teams
+1343941,2023-01-10,"Newlands, Cape Town","['Paarl Royals', 'MI Cape Town']","['Paarl Royals', 'MI Cape Town']",275,10,221,285,MI Cape Town vs Paarl Royals
+1343942,2023-01-11,"Kingsmead, Durban","['Joburg Super Kings', ""Durban's Super Giants""]","['Joburg Super Kings', ""Durban's Super Giants""]",347,17,251,364,Durban's Super Giants vs Joburg Super Kings
+1343943,2023-01-12,"St George's Park, Gqeberha","['Pretoria Capitals', 'Sunrisers Eastern Cape']","['Pretoria Capitals', 'Sunrisers Eastern Cape']",352,11,244,363,Pretoria Capitals vs Sunrisers Eastern Cape
+1343944,2023-01-13,"Boland Park, Paarl","['Paarl Royals', 'Joburg Super Kings']","['Paarl Royals', 'Joburg Super Kings']",158,5,171,163,Joburg Super Kings vs Paarl Royals
+1343945,2023-01-13,"Newlands, Cape Town","['MI Cape Town', ""Durban's Super Giants""]","['MI Cape Town', ""Durban's Super Giants""]",288,18,226,306,Durban's Super Giants vs MI Cape Town
+1343946,2023-01-14,"SuperSport Park, Centurion","['Pretoria Capitals', 'Sunrisers Eastern Cape']","['Pretoria Capitals', 'Sunrisers Eastern Cape']",379,16,248,395,Pretoria Capitals vs Sunrisers Eastern Cape
+1343947,2023-01-14,"Newlands, Cape Town","['Joburg Super Kings', 'MI Cape Town']","['MI Cape Town', 'Joburg Super Kings']",186,26,231,212,Joburg Super Kings vs MI Cape Town
+1343948,2023-01-15,"Kingsmead, Durban","['Paarl Royals', ""Durban's Super Giants""]","['Paarl Royals', ""Durban's Super Giants""]",376,29,255,405,Durban's Super Giants vs Paarl Royals
+1343949,2023-01-16,"St George's Park, Gqeberha","['MI Cape Town', 'Sunrisers Eastern Cape']","['Sunrisers Eastern Cape', 'MI Cape Town']",301,19,243,320,MI Cape Town vs Sunrisers Eastern Cape
+1343950,2023-01-17,"Boland Park, Paarl","['Paarl Royals', ""Durban's Super Giants""]","['Paarl Royals', ""Durban's Super Giants""]",302,26,255,328,Durban's Super Giants vs Paarl Royals
+1343951,2023-01-17,"The Wanderers Stadium, Johannesburg","['Pretoria Capitals', 'Joburg Super Kings']","['Pretoria Capitals', 'Joburg Super Kings']",317,13,249,330,Joburg Super Kings vs Pretoria Capitals
+1343952,2023-01-18,"Newlands, Cape Town","['MI Cape Town', 'Sunrisers Eastern Cape']","['Sunrisers Eastern Cape', 'MI Cape Town']",328,15,250,343,MI Cape Town vs Sunrisers Eastern Cape
+1343953,2023-01-18,"SuperSport Park, Centurion","['Pretoria Capitals', 'Joburg Super Kings']","['Pretoria Capitals', 'Joburg Super Kings']",229,16,179,245,Joburg Super Kings vs Pretoria Capitals
+1343954,2023-01-19,"Boland Park, Paarl","['Paarl Royals', 'Sunrisers Eastern Cape']","['Paarl Royals', 'Sunrisers Eastern Cape']",240,18,236,258,Paarl Royals vs Sunrisers Eastern Cape
+1343955,2023-01-20,"Kingsmead, Durban","['Pretoria Capitals', ""Durban's Super Giants""]","['Pretoria Capitals', ""Durban's Super Giants""]",154,10,159,164,Durban's Super Giants vs Pretoria Capitals
+1343956,2023-01-21,"Boland Park, Paarl","['Paarl Royals', 'MI Cape Town']","['Paarl Royals', 'MI Cape Town']",257,14,247,271,MI Cape Town vs Paarl Royals
+1343957,2023-01-21,"St George's Park, Gqeberha","['Sunrisers Eastern Cape', 'Joburg Super Kings']","['Joburg Super Kings', 'Sunrisers Eastern Cape']",241,14,239,255,Joburg Super Kings vs Sunrisers Eastern Cape
+1343958,2023-01-22,"Boland Park, Paarl","['Pretoria Capitals', 'Paarl Royals']","['Pretoria Capitals', 'Paarl Royals']",297,23,250,320,Paarl Royals vs Pretoria Capitals
+1343959,2023-01-22,"St George's Park, Gqeberha","['Sunrisers Eastern Cape', ""Durban's Super Giants""]","['Sunrisers Eastern Cape', ""Durban's Super Giants""]",283,13,213,296,Durban's Super Giants vs Sunrisers Eastern Cape
+1343960,2023-01-23,"Newlands, Cape Town","['Pretoria Capitals', 'MI Cape Town']","['Pretoria Capitals', 'MI Cape Town']",292,20,240,312,MI Cape Town vs Pretoria Capitals
+1343961,2023-01-24,"St George's Park, Gqeberha","['Paarl Royals', 'Sunrisers Eastern Cape']","['Paarl Royals', 'Sunrisers Eastern Cape']",253,8,236,261,Paarl Royals vs Sunrisers Eastern Cape
+1343962,2023-01-24,"The Wanderers Stadium, Johannesburg","['Joburg Super Kings', ""Durban's Super Giants""]","['Joburg Super Kings', ""Durban's Super Giants""]",336,24,241,360,Durban's Super Giants vs Joburg Super Kings
+1343963,2023-02-02,"Kingsmead, Durban","['MI Cape Town', ""Durban's Super Giants""]","['MI Cape Town', ""Durban's Super Giants""]",309,25,253,334,Durban's Super Giants vs MI Cape Town
+1343964,2023-02-03,"The Wanderers Stadium, Johannesburg",['Paarl Royals'],['Joburg Super Kings'],119,12,92,131,Joburg Super Kings vs Paarl Royals
+1343965,2023-02-03,"Kingsmead, Durban",['Sunrisers Eastern Cape'],"[""Durban's Super Giants""]",50,3,34,53,Durban's Super Giants vs Sunrisers Eastern Cape
+1343966,2023-02-04,"SuperSport Park, Centurion","['Pretoria Capitals', 'MI Cape Town']","['Pretoria Capitals', 'MI Cape Town']",292,27,251,319,MI Cape Town vs Pretoria Capitals
+1343967,2023-02-05,"The Wanderers Stadium, Johannesburg","['Joburg Super Kings', 'Sunrisers Eastern Cape']","['Sunrisers Eastern Cape', 'Joburg Super Kings']",282,14,247,296,Joburg Super Kings vs Sunrisers Eastern Cape
+1343968,2023-02-05,"SuperSport Park, Centurion","['Pretoria Capitals', ""Durban's Super Giants""]","['Pretoria Capitals', ""Durban's Super Giants""]",340,17,213,357,Durban's Super Giants vs Pretoria Capitals
+1343969,2023-02-06,"The Wanderers Stadium, Johannesburg","['Joburg Super Kings', 'MI Cape Town']","['MI Cape Town', 'Joburg Super Kings']",275,27,235,302,Joburg Super Kings vs MI Cape Town
+1343970,2023-02-07,"SuperSport Park, Centurion","['Pretoria Capitals', 'Paarl Royals']","['Pretoria Capitals', 'Paarl Royals']",361,32,252,393,Paarl Royals vs Pretoria Capitals
+1343971,2023-02-08,"The Wanderers Stadium, Johannesburg","['Pretoria Capitals', 'Paarl Royals']","['Pretoria Capitals', 'Paarl Royals']",255,22,249,277,Paarl Royals vs Pretoria Capitals
+1343972,2023-02-09,"SuperSport Park, Centurion","['Sunrisers Eastern Cape', 'Joburg Super Kings']","['Joburg Super Kings', 'Sunrisers Eastern Cape']",384,28,257,412,Joburg Super Kings vs Sunrisers Eastern Cape
+1343973,2023-02-11,"The Wanderers Stadium, Johannesburg","['Pretoria Capitals', 'Sunrisers Eastern Cape']","['Pretoria Capitals', 'Sunrisers Eastern Cape']",258,14,225,272,Pretoria Capitals vs Sunrisers Eastern Cape
+1392653,2024-01-11,"Kingsmead, Durban","['MI Cape Town', ""Durban's Super Giants""]","['MI Cape Town', ""Durban's Super Giants""]",363,21,234,384,Durban's Super Giants vs MI Cape Town
+1392654,2024-01-12,"Boland Park, Paarl","['Pretoria Capitals', 'Paarl Royals']","['Pretoria Capitals', 'Paarl Royals']",280,13,248,293,Paarl Royals vs Pretoria Capitals
+1392655,2024-01-13,"The Wanderers Stadium, Johannesburg","['MI Cape Town', 'Joburg Super Kings']","['Joburg Super Kings', 'MI Cape Town']",370,18,236,388,Joburg Super Kings vs MI Cape Town
+1392656,2024-01-13,"St George's Park, Gqeberha","['Sunrisers Eastern Cape', ""Durban's Super Giants""]","['Sunrisers Eastern Cape', ""Durban's Super Giants""]",396,19,246,415,Durban's Super Giants vs Sunrisers Eastern Cape
+1392657,2024-01-14,"SuperSport Park, Centurion","['Pretoria Capitals', 'Paarl Royals']","['Pretoria Capitals', 'Paarl Royals']",391,19,254,410,Paarl Royals vs Pretoria Capitals
+1392658,2024-01-15,"Kingsmead, Durban","['Joburg Super Kings', ""Durban's Super Giants""]","['Joburg Super Kings', ""Durban's Super Giants""]",242,11,245,253,Durban's Super Giants vs Joburg Super Kings
+1392659,2024-01-16,"Newlands, Cape Town","['Sunrisers Eastern Cape', 'MI Cape Town']","['MI Cape Town', 'Sunrisers Eastern Cape']",370,30,258,400,MI Cape Town vs Sunrisers Eastern Cape
+1392660,2024-01-17,"Boland Park, Paarl","['Paarl Royals', 'Joburg Super Kings']","['Paarl Royals', 'Joburg Super Kings']",249,20,217,269,Joburg Super Kings vs Paarl Royals
+1392661,2024-01-18,"SuperSport Park, Centurion","['Pretoria Capitals', ""Durban's Super Giants""]","['Pretoria Capitals', ""Durban's Super Giants""]",363,28,253,391,Durban's Super Giants vs Pretoria Capitals
+1392662,2024-01-19,"Newlands, Cape Town","['Paarl Royals', 'MI Cape Town']","['Paarl Royals', 'MI Cape Town']",322,25,230,347,MI Cape Town vs Paarl Royals
+1392663,2024-01-20,"Kingsmead, Durban","['Sunrisers Eastern Cape', ""Durban's Super Giants""]","['Sunrisers Eastern Cape', ""Durban's Super Giants""]",315,7,243,322,Durban's Super Giants vs Sunrisers Eastern Cape
+1392664,2024-01-20,"The Wanderers Stadium, Johannesburg","['Pretoria Capitals', 'Joburg Super Kings']","['Pretoria Capitals', 'Joburg Super Kings']",322,16,236,338,Joburg Super Kings vs Pretoria Capitals
+1392665,2024-01-21,"Boland Park, Paarl","['Paarl Royals', 'MI Cape Town']","['Paarl Royals', 'MI Cape Town']",253,12,237,265,MI Cape Town vs Paarl Royals
+1392666,2024-01-22,"St George's Park, Gqeberha","['Pretoria Capitals', 'Sunrisers Eastern Cape']","['Pretoria Capitals', 'Sunrisers Eastern Cape']",101,5,125,106,Pretoria Capitals vs Sunrisers Eastern Cape
+1392667,2024-01-23,"Newlands, Cape Town","['MI Cape Town', ""Durban's Super Giants""]","['MI Cape Town', ""Durban's Super Giants""]",267,11,246,278,Durban's Super Giants vs MI Cape Town
+1392668,2024-01-24,"The Wanderers Stadium, Johannesburg","['Paarl Royals', 'Joburg Super Kings']","['Paarl Royals', 'Joburg Super Kings']",317,22,244,339,Joburg Super Kings vs Paarl Royals
+1392669,2024-01-25,"SuperSport Park, Centurion","['Pretoria Capitals', 'Sunrisers Eastern Cape']","['Pretoria Capitals', 'Sunrisers Eastern Cape']",230,17,238,247,Pretoria Capitals vs Sunrisers Eastern Cape
+1392670,2024-01-26,"Boland Park, Paarl","['Paarl Royals', ""Durban's Super Giants""]","['Paarl Royals', ""Durban's Super Giants""]",304,19,244,323,Durban's Super Giants vs Paarl Royals
+1392671,2024-01-27,"St George's Park, Gqeberha","['Sunrisers Eastern Cape', 'MI Cape Town']","['MI Cape Town', 'Sunrisers Eastern Cape']",318,28,253,346,MI Cape Town vs Sunrisers Eastern Cape
+1392672,2024-01-27,"SuperSport Park, Centurion",['Joburg Super Kings'],['Pretoria Capitals'],42,2,30,44,Joburg Super Kings vs Pretoria Capitals
+1392673,2024-01-28,"Kingsmead, Durban","['Paarl Royals', ""Durban's Super Giants""]","['Paarl Royals', ""Durban's Super Giants""]",274,17,209,291,Durban's Super Giants vs Paarl Royals
+1392674,2024-01-29,"Newlands, Cape Town","['MI Cape Town', 'Joburg Super Kings']","['Joburg Super Kings', 'MI Cape Town']",166,12,90,178,Joburg Super Kings vs MI Cape Town
+1392675,2024-01-30,"Kingsmead, Durban","['Pretoria Capitals', ""Durban's Super Giants""]","['Pretoria Capitals', ""Durban's Super Giants""]",309,31,254,340,Durban's Super Giants vs Pretoria Capitals
+1392676,2024-01-31,"The Wanderers Stadium, Johannesburg","['Joburg Super Kings', 'Sunrisers Eastern Cape']","['Sunrisers Eastern Cape', 'Joburg Super Kings']",153,4,161,157,Joburg Super Kings vs Sunrisers Eastern Cape
+1392677,2024-02-01,"SuperSport Park, Centurion","['Pretoria Capitals', 'MI Cape Town']","['Pretoria Capitals', 'MI Cape Town']",439,23,254,462,MI Cape Town vs Pretoria Capitals
+1392678,2024-02-02,"Boland Park, Paarl","['Paarl Royals', 'Sunrisers Eastern Cape']","['Paarl Royals', 'Sunrisers Eastern Cape']",345,27,260,372,Paarl Royals vs Sunrisers Eastern Cape
+1392679,2024-02-03,"Newlands, Cape Town","['Pretoria Capitals', 'MI Cape Town']","['Pretoria Capitals', 'MI Cape Town']",320,10,246,330,MI Cape Town vs Pretoria Capitals
+1392680,2024-02-03,"The Wanderers Stadium, Johannesburg","['Joburg Super Kings', ""Durban's Super Giants""]","['Joburg Super Kings', ""Durban's Super Giants""]",390,22,252,412,Durban's Super Giants vs Joburg Super Kings
+1392681,2024-02-04,"St George's Park, Gqeberha","['Paarl Royals', 'Sunrisers Eastern Cape']","['Paarl Royals', 'Sunrisers Eastern Cape']",311,13,247,324,Paarl Royals vs Sunrisers Eastern Cape
+1392682,2024-02-06,"Newlands, Cape Town","['Sunrisers Eastern Cape', ""Durban's Super Giants""]","['Sunrisers Eastern Cape', ""Durban's Super Giants""]",252,11,241,263,Durban's Super Giants vs Sunrisers Eastern Cape
+1392683,2024-02-07,"The Wanderers Stadium, Johannesburg","['Paarl Royals', 'Joburg Super Kings']","['Paarl Royals', 'Joburg Super Kings']",258,19,206,277,Joburg Super Kings vs Paarl Royals
+1392684,2024-02-08,"The Wanderers Stadium, Johannesburg","['Joburg Super Kings', ""Durban's Super Giants""]","['Joburg Super Kings', ""Durban's Super Giants""]",340,13,237,353,Durban's Super Giants vs Joburg Super Kings
+1392685,2024-02-10,"Newlands, Cape Town","['Sunrisers Eastern Cape', ""Durban's Super Giants""]","['Sunrisers Eastern Cape', ""Durban's Super Giants""]",312,7,226,319,Durban's Super Giants vs Sunrisers Eastern Cape
