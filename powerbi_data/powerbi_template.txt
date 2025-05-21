@@ -1,0 +1,136 @@
+// Additional Match Analysis Measures
+Match Win Margin = 
+CALCULATE(
+    MAX('match_summary'[total_runs]) - MIN('match_summary'[total_runs]),
+    'match_summary'[match_id] = SELECTEDVALUE('match_summary'[match_id])
+)
+
+Match Momentum = 
+VAR CurrentOver = SELECTEDVALUE('over_analysis'[over_number])
+VAR CurrentRuns = CALCULATE(
+    SUM('over_analysis'[runs]),
+    'over_analysis'[over_number] <= CurrentOver
+)
+VAR PreviousRuns = CALCULATE(
+    SUM('over_analysis'[runs]),
+    'over_analysis'[over_number] < CurrentOver
+)
+RETURN
+    CurrentRuns - PreviousRuns
+
+// Advanced Player Analysis
+Player Impact Score = 
+VAR Runs = SUM('player_batting'[runs_off_bat])
+VAR Balls = SUM('player_batting'[ball])
+VAR Boundaries = CALCULATE(
+    COUNTROWS('player_batting'),
+    'player_batting'[runs_off_bat] IN {4, 6}
+)
+RETURN
+    (Runs * 1.0) + (Boundaries * 0.5) + ((Runs/Balls) * 100)
+
+Player Consistency = 
+VAR PlayerRuns = VALUES('player_batting'[runs_off_bat])
+RETURN
+    STDEV.P(PlayerRuns)
+
+// Team Performance Metrics
+Team Batting Depth = 
+COUNTROWS(
+    FILTER(
+        'player_batting',
+        'player_batting'[batting_team] = SELECTEDVALUE('team_stats'[batting_team])
+    )
+)
+
+Team Boundary Rate = 
+DIVIDE(
+    CALCULATE(
+        COUNTROWS('player_batting'),
+        'player_batting'[runs_off_bat] IN {4, 6}
+    ),
+    COUNTROWS('player_batting'),
+    0
+)
+
+// Venue Analysis
+Venue Difficulty = 
+VAR VenueRuns = AVERAGE('venue_stats'[avg_total_runs])
+VAR OverallRuns = AVERAGE('match_summary'[total_runs])
+RETURN
+    DIVIDE(VenueRuns, OverallRuns, 0)
+
+Venue Boundary Factor = 
+DIVIDE(
+    AVERAGE('venue_stats'[boundaries]),
+    AVERAGE('match_summary'[total_runs]),
+    0
+)
+
+// Powerplay Impact
+Powerplay Win Correlation = 
+CORREL(
+    'powerplay_batting'[powerplay_runs],
+    'match_summary'[total_runs]
+)
+
+Powerplay Momentum = 
+VAR PowerplayRuns = SUM('powerplay_batting'[powerplay_runs])
+VAR TotalRuns = SUM('match_summary'[total_runs])
+RETURN
+    DIVIDE(PowerplayRuns, TotalRuns, 0)
+
+// Time-based Analysis
+Form Trend = 
+VAR CurrentDate = MAX('match_summary'[start_date])
+VAR Last5Matches = TOPN(
+    5,
+    FILTER(
+        'match_summary',
+        'match_summary'[start_date] <= CurrentDate
+    ),
+    'match_summary'[start_date]
+)
+RETURN
+    AVERAGEX(Last5Matches, 'match_summary'[total_runs])
+
+// Conditional Formatting
+Performance Category = 
+SWITCH(
+    TRUE(),
+    [Player Impact Score] > 150, "Excellent",
+    [Player Impact Score] > 100, "Good",
+    [Player Impact Score] > 50, "Average",
+    "Below Average"
+)
+
+Venue Difficulty Level = 
+SWITCH(
+    TRUE(),
+    [Venue Difficulty] > 1.2, "High Scoring",
+    [Venue Difficulty] > 0.8, "Balanced",
+    "Low Scoring"
+)
+
+// Bookmark Navigation
+Current View = 
+SELECTEDVALUE('Navigation'[View Name])
+
+// Tooltip Measures
+Detailed Player Stats = 
+CONCATENATEX(
+    'player_batting',
+    'player_batting'[player] & ": " & 
+    'player_batting'[runs_off_bat] & " runs, " &
+    'player_batting'[strike_rate] & " SR",
+    UNICHAR(10)
+)
+
+Match Summary = 
+CONCATENATEX(
+    'match_summary',
+    'match_summary'[teams] & " - " &
+    'match_summary'[total_runs] & " runs, " &
+    'match_summary'[wicket_type] & " wickets",
+    UNICHAR(10)
+) 
