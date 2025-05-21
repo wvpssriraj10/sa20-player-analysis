@@ -1,0 +1,101 @@
+// Match Analysis Measures
+Total Matches = COUNTROWS('match_summary')
+Total Runs = SUM('match_summary'[total_runs])
+Average Runs per Match = AVERAGE('match_summary'[total_runs])
+Total Wickets = SUM('match_summary'[wicket_type])
+
+// Player Analysis Measures
+Total Players = DISTINCTCOUNT('player_batting'[player])
+Average Strike Rate = AVERAGE('player_batting'[strike_rate])
+Average Batting Average = AVERAGE('player_batting'[average])
+Total Boundaries = CALCULATE(
+    COUNTROWS('player_batting'),
+    'player_batting'[runs_off_bat] IN {4, 6}
+)
+
+// Team Analysis Measures
+Team Win Rate = 
+VAR TeamMatches = COUNTROWS('team_stats')
+VAR TeamWins = CALCULATE(
+    COUNTROWS('match_summary'),
+    'match_summary'[winning_team] = SELECTEDVALUE('team_stats'[batting_team])
+)
+RETURN
+    DIVIDE(TeamWins, TeamMatches, 0)
+
+// Powerplay Analysis Measures
+Powerplay Run Rate = 
+DIVIDE(
+    SUM('powerplay_batting'[powerplay_runs]),
+    SUM('powerplay_batting'[powerplay_balls]) * 6,
+    0
+)
+
+Powerplay Economy Rate = 
+DIVIDE(
+    SUM('powerplay_bowling'[runs_conceded]),
+    SUM('powerplay_bowling'[balls_bowled]) * 6,
+    0
+)
+
+// Venue Analysis Measures
+Venue Run Rate = 
+DIVIDE(
+    SUM('venue_stats'[avg_total_runs]),
+    COUNTROWS('venue_stats'),
+    0
+)
+
+Venue Boundary Rate = 
+DIVIDE(
+    CALCULATE(
+        COUNTROWS('venue_stats'),
+        'venue_stats'[boundaries] > 0
+    ),
+    COUNTROWS('venue_stats'),
+    0
+)
+
+// Partnership Analysis Measures
+Average Partnership = 
+AVERAGE('partnerships'[runs_off_bat])
+
+Partnership Run Rate = 
+DIVIDE(
+    SUM('partnerships'[runs_off_bat]),
+    SUM('partnerships'[ball]) * 6,
+    0
+)
+
+// Time-based Analysis Measures
+Monthly Average Runs = 
+CALCULATE(
+    AVERAGE('match_summary'[total_runs]),
+    ALLSELECTED('match_summary'[start_date])
+)
+
+Running Average = 
+AVERAGEX(
+    FILTER(
+        ALL('match_summary'),
+        'match_summary'[start_date] <= MAX('match_summary'[start_date])
+    ),
+    'match_summary'[total_runs]
+)
+
+// Conditional Formatting Measures
+High Scoring Match = 
+IF(
+    'match_summary'[total_runs] > AVERAGE('match_summary'[total_runs]),
+    "High Scoring",
+    "Normal"
+)
+
+Player Form = 
+SWITCH(
+    TRUE(),
+    'player_batting'[strike_rate] > 150, "Excellent",
+    'player_batting'[strike_rate] > 120, "Good",
+    'player_batting'[strike_rate] > 100, "Average",
+    "Below Average"
+) 
