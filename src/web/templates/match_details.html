@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">Match Details</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="card-title mb-0">{{ match.teams[0] }} vs {{ match.teams[1] }}</h2>
+                    <span class="badge bg-primary">{{ match.date }}</span>
+                </div>
+                <p class="text-muted">
+                    <i class='bx bx-map'></i> {{ match.venue }}
+                </p>
+                {% if match.winner %}
+                <div class="alert alert-success">
+                    <strong>Winner:</strong> {{ match.winner }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <!-- Team 1 Scorecard -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ match.teams[0] }}</h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Batsman</th>
+                                <th>Runs</th>
+                                <th>Balls</th>
+                                <th>SR</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for player in match.team1_batting %}
+                            <tr>
+                                <td>{{ player.name }}</td>
+                                <td>{{ player.runs }}</td>
+                                <td>{{ player.balls }}</td>
+                                <td>{{ player.strike_rate }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team 2 Scorecard -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ match.teams[1] }}</h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Batsman</th>
+                                <th>Runs</th>
+                                <th>Balls</th>
+                                <th>SR</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for player in match.team2_batting %}
+                            <tr>
+                                <td>{{ player.name }}</td>
+                                <td>{{ player.runs }}</td>
+                                <td>{{ player.balls }}</td>
+                                <td>{{ player.strike_rate }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Match Timeline -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Match Timeline</h5>
+                <canvas id="matchTimelineChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Statistics -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Key Statistics</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Total Runs
+                        <span class="badge bg-primary rounded-pill">{{ match.total_runs }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Boundaries
+                        <span class="badge bg-primary rounded-pill">{{ match.boundaries }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Wickets
+                        <span class="badge bg-primary rounded-pill">{{ match.wickets }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Run Rate
+                        <span class="badge bg-primary rounded-pill">{{ match.run_rate }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Match Timeline Chart
+const ctx = document.getElementById('matchTimelineChart').getContext('2d');
+const timelineData = {{ match.timeline|tojson }};
+
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: timelineData.overs,
+        datasets: [{
+            label: 'Runs',
+            data: timelineData.runs,
+            borderColor: '#1E88E5',
+            tension: 0.1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Runs per Over'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+{% endblock %} 

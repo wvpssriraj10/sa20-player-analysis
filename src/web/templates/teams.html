@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="mb-4">SA20 Teams</h2>
+    </div>
+</div>
+
+<!-- Team Cards -->
+<div class="row">
+    {% for team_name, stats in team_stats.items() %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card team-card" onclick="window.location.href='/team/{{ team_name }}'">
+            <div class="card-body">
+                <h5 class="card-title">{{ team_name }}</h5>
+                <div class="team-stats">
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="mb-1"><small>Matches</small></p>
+                            <h4>{{ stats.matches }}</h4>
+                        </div>
+                        <div class="col-6">
+                            <p class="mb-1"><small>Win Rate</small></p>
+                            <h4>{{ "%.1f"|format(stats.win_rate) }}%</h4>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <p class="mb-1"><small>Total Runs</small></p>
+                            <h4>{{ stats.total_runs }}</h4>
+                        </div>
+                        <div class="col-6">
+                            <p class="mb-1"><small>Run Rate</small></p>
+                            <h4>{{ "%.2f"|format(stats.run_rate) }}</h4>
+                        </div>
+                    </div>
+                    <div class="form-indicator mt-3">
+                        <p class="mb-1"><small>Recent Form</small></p>
+                        <div class="d-flex">
+                            {% for result in stats.form %}
+                            <span class="badge {% if result == 'W' %}bg-success{% else %}bg-danger{% endif %} me-1">
+                                {{ result }}
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Team Comparison Charts -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Team Performance Comparison</h5>
+                <canvas id="teamComparisonChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Run Rate Distribution</h5>
+                <canvas id="runRateChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Team Comparison Chart
+const teamCtx = document.getElementById('teamComparisonChart').getContext('2d');
+const teamData = {{ team_stats|tojson }};
+
+new Chart(teamCtx, {
+    type: 'bar',
+    data: {
+        labels: Object.keys(teamData),
+        datasets: [{
+            label: 'Total Runs',
+            data: Object.values(teamData).map(team => team.total_runs),
+            backgroundColor: '#1E88E5'
+        }, {
+            label: 'Wins',
+            data: Object.values(teamData).map(team => team.wins),
+            backgroundColor: '#43A047'
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+// Run Rate Chart
+const runRateCtx = document.getElementById('runRateChart').getContext('2d');
+new Chart(runRateCtx, {
+    type: 'radar',
+    data: {
+        labels: Object.keys(teamData),
+        datasets: [{
+            label: 'Run Rate',
+            data: Object.values(teamData).map(team => team.run_rate),
+            backgroundColor: 'rgba(30, 136, 229, 0.2)',
+            borderColor: '#1E88E5',
+            pointBackgroundColor: '#1E88E5'
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            r: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+{% endblock %} 

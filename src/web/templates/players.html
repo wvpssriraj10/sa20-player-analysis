@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="mb-4">SA20 Players</h2>
+    </div>
+</div>
+
+<!-- Player Statistics -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Matches</th>
+                                <th>Runs</th>
+                                <th>Highest Score</th>
+                                <th>Average</th>
+                                <th>Strike Rate</th>
+                                <th>Boundaries</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for player_name, stats in players.items() %}
+                            <tr onclick="window.location.href='/player/{{ player_name }}'">
+                                <td>{{ player_name }}</td>
+                                <td>{{ stats.matches }}</td>
+                                <td>{{ stats.runs }}</td>
+                                <td>{{ stats.highest_score }}</td>
+                                <td>{{ "%.2f"|format(stats.runs / stats.matches if stats.matches > 0 else 0) }}</td>
+                                <td>{{ "%.2f"|format(stats.strike_rate) }}</td>
+                                <td>{{ stats.boundaries }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Player Performance Charts -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Top Run Scorers</h5>
+                <canvas id="topScorersChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Strike Rate vs Average</h5>
+                <canvas id="strikeRateChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Top Scorers Chart
+const scorersCtx = document.getElementById('topScorersChart').getContext('2d');
+const playerData = {{ players|tojson }};
+
+// Sort players by runs and get top 10
+const topScorers = Object.entries(playerData)
+    .sort(([,a], [,b]) => b.runs - a.runs)
+    .slice(0, 10);
+
+new Chart(scorersCtx, {
+    type: 'bar',
+    data: {
+        labels: topScorers.map(([name]) => name),
+        datasets: [{
+            label: 'Runs',
+            data: topScorers.map(([,stats]) => stats.runs),
+            backgroundColor: '#1E88E5'
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Runs'
+                }
+            }
+        }
+    }
+});
+
+// Strike Rate vs Average Chart
+const strikeRateCtx = document.getElementById('strikeRateChart').getContext('2d');
+const playerStats = Object.entries(playerData).map(([name, stats]) => ({
+    name,
+    average: stats.matches > 0 ? stats.runs / stats.matches : 0,
+    strikeRate: stats.strike_rate
+}));
+
+new Chart(strikeRateCtx, {
+    type: 'scatter',
+    data: {
+        datasets: [{
+            label: 'Players',
+            data: playerStats.map(player => ({
+                x: player.average,
+                y: player.strikeRate
+            })),
+            backgroundColor: '#1E88E5'
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        const player = playerStats[context.dataIndex];
+                        return `${player.name}: ${player.average.toFixed(2)} avg, ${player.strikeRate.toFixed(2)} SR`;
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Batting Average'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Strike Rate'
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %} 

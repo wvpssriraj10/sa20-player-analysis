@@ -1,9 +1,5 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
-from pathlib import Path
-from datetime import datetime
 
 class CricketAnalyzer:
     def __init__(self, data_path):
@@ -183,11 +179,11 @@ if __name__ == "__main__":
     
     # Example usage of new features
     print("\nPowerplay Analysis:")
-    powerplay_batting, powerplay_bowling = analyzer.get_powerplay_stats()
+    powerplay_batting_main, powerplay_bowling_main = analyzer.get_powerplay_stats()
     print("\nTop Powerplay Batsmen:")
-    print(powerplay_batting.sort_values('powerplay_runs', ascending=False).head())
+    print(powerplay_batting_main.sort_values('powerplay_runs', ascending=False).head())
     print("\nTop Powerplay Bowlers:")
-    print(powerplay_bowling.sort_values('wickets', ascending=False).head())
+    print(powerplay_bowling_main.sort_values('wickets', ascending=False).head())
     
     print("\nTop Partnerships:")
     print(analyzer.get_player_partnerships().head())
@@ -203,8 +199,8 @@ if __name__ == "__main__":
     # Example of match momentum analysis
     first_match = analyzer.data['match_id'].iloc[0]
     print(f"\nMatch Momentum Analysis for Match {first_match}:")
-    run_rates, key_moments = analyzer.get_match_momentum(first_match)
+    run_rates_main, key_moments_main = analyzer.get_match_momentum(first_match)
     print("\nRun Rates:")
-    print(run_rates)
+    print(run_rates_main)
     print("\nKey Moments:")
-    print(key_moments) 
+    print(key_moments_main)

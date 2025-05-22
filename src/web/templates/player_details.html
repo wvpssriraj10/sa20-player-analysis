@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/players">Players</a></li>
+                <li class="breadcrumb-item active">{{ player_name }}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- Player Overview -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="card-title mb-0">{{ player_name }}</h2>
+                    <span class="badge bg-primary">{{ team_name }}</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="stat-box text-center">
+                            <h6>Matches</h6>
+                            <h3>{{ player_data.matches }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-box text-center">
+                            <h6>Total Runs</h6>
+                            <h3>{{ player_data.runs }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-box text-center">
+                            <h6>Highest Score</h6>
+                            <h3>{{ player_data.highest_score }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-box text-center">
+                            <h6>Average</h6>
+                            <h3>{{ "%.2f"|format(player_data.runs / player_data.matches if player_data.matches > 0 else 0) }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Performance Charts -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Runs Distribution</h5>
+                <canvas id="runsDistributionChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Performance Trend</h5>
+                <canvas id="performanceTrendChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Detailed Statistics -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Batting Statistics</h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Strike Rate</th>
+                                <td>{{ "%.2f"|format(player_data.strike_rate) }}</td>
+                            </tr>
+                            <tr>
+                                <th>Boundaries</th>
+                                <td>{{ player_data.boundaries }}</td>
+                            </tr>
+                            <tr>
+                                <th>Boundary Percentage</th>
+                                <td>{{ "%.1f"|format(player_data.boundaries / player_data.runs * 100 if player_data.runs > 0 else 0) }}%</td>
+                            </tr>
+                            <tr>
+                                <th>Not Outs</th>
+                                <td>{{ player_data.not_outs }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Match Performance</h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>50+ Scores</th>
+                                <td>{{ player_data.fifties }}</td>
+                            </tr>
+                            <tr>
+                                <th>100+ Scores</th>
+                                <td>{{ player_data.hundreds }}</td>
+                            </tr>
+                            <tr>
+                                <th>Best Performance</th>
+                                <td>{{ player_data.best_performance }}</td>
+                            </tr>
+                            <tr>
+                                <th>Man of the Match</th>
+                                <td>{{ player_data.mom_count }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Runs Distribution Chart
+const runsCtx = document.getElementById('runsDistributionChart').getContext('2d');
+const runsData = {{ player_data.runs_distribution|tojson }};
+
+new Chart(runsCtx, {
+    type: 'bar',
+    data: {
+        labels: ['0-10', '11-20', '21-30', '31-40', '41-50', '50+'],
+        datasets: [{
+            label: 'Frequency',
+            data: runsData,
+            backgroundColor: '#1E88E5'
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Number of Innings'
+                }
+            }
+        }
+    }
+});
+
+// Performance Trend Chart
+const trendCtx = document.getElementById('performanceTrendChart').getContext('2d');
+const matchData = {{ player_data.match_performances|tojson }};
+
+new Chart(trendCtx, {
+    type: 'line',
+    data: {
+        labels: matchData.map((_, i) => `Match ${i + 1}`),
+        datasets: [{
+            label: 'Runs',
+            data: matchData,
+            borderColor: '#1E88E5',
+            tension: 0.1,
+            fill: false
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Runs'
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %} 

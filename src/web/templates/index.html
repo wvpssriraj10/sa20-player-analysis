@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="mb-4">SA20 Cricket Dashboard</h2>
+    </div>
+    
+    <!-- Statistics Cards -->
+    <div class="col-md-3">
+        <div class="card stat-card mb-4">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2">Total Matches</h6>
+                <h2 class="card-title mb-0" id="total-matches">-</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card mb-4">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2">Total Runs</h6>
+                <h2 class="card-title mb-0" id="total-runs">-</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card mb-4">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2">Average Runs</h6>
+                <h2 class="card-title mb-0" id="avg-runs">-</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card mb-4">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2">Teams</h6>
+                <h2 class="card-title mb-0" id="total-teams">-</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Team Performance</h5>
+                <canvas id="teamPerformanceChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Runs Distribution</h5>
+                <canvas id="runsDistributionChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Matches -->
+<div class="row">
+    <div class="col-12">
+        <h3 class="mb-4">Recent Matches</h3>
+    </div>
+    {% for match in matches[:6] %}
+    <div class="col-md-4 mb-4">
+        <div class="card match-card" onclick="window.location.href='/match/{{ match.id }}'">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="badge bg-primary">{{ match.date }}</span>
+                    <span class="badge bg-secondary">{{ match.venue }}</span>
+                </div>
+                <h5 class="card-title">{{ match.teams[0] }} vs {{ match.teams[1] }}</h5>
+                <p class="card-text">
+                    {% if match.winner %}
+                    <strong>Winner:</strong> {{ match.winner }}<br>
+                    {% endif %}
+                    <strong>Total Runs:</strong> {{ match.total_runs }}
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Fetch and display statistics
+fetch('/api/statistics')
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('total-matches').textContent = data.total_matches;
+        document.getElementById('total-runs').textContent = data.total_runs;
+        document.getElementById('avg-runs').textContent = Math.round(data.average_runs);
+        document.getElementById('total-teams').textContent = Object.keys(data.team_statistics).length;
+        
+        // Team Performance Chart
+        const teamCtx = document.getElementById('teamPerformanceChart').getContext('2d');
+        const teamData = data.team_statistics;
+        new Chart(teamCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(teamData),
+                datasets: [{
+                    label: 'Wins',
+                    data: Object.values(teamData).map(team => team.wins),
+                    backgroundColor: '#1E88E5'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+        
+        // Runs Distribution Chart
+        const runsCtx = document.getElementById('runsDistributionChart').getContext('2d');
+        new Chart(runsCtx, {
+            type: 'line',
+            data: {
+                labels: Object.keys(teamData),
+                datasets: [{
+                    label: 'Average Runs',
+                    data: Object.values(teamData).map(team => team.runs / team.matches),
+                    borderColor: '#43A047',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    });
+</script>
+{% endblock %} 

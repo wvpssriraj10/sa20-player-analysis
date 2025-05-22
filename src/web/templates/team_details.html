@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/teams">Teams</a></li>
+                <li class="breadcrumb-item active">{{ team_name }}</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- Team Overview -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title mb-4">{{ team_name }}</h2>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="stat-box text-center">
+                            <h6>Matches</h6>
+                            <h3>{{ team_data.matches }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-box text-center">
+                            <h6>Win Rate</h6>
+                            <h3>{{ "%.1f"|format(team_data.win_rate) }}%</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-box text-center">
+                            <h6>Total Runs</h6>
+                            <h3>{{ team_data.total_runs }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-box text-center">
+                            <h6>Run Rate</h6>
+                            <h3>{{ "%.2f"|format(team_data.run_rate) }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Team Performance Charts -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Performance Trend</h5>
+                <canvas id="performanceTrendChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Score Distribution</h5>
+                <canvas id="scoreDistributionChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Player Statistics -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-4">Player Statistics</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Matches</th>
+                                <th>Runs</th>
+                                <th>Highest Score</th>
+                                <th>Average</th>
+                                <th>Strike Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for player_name, stats in team_data.players.items() %}
+                            <tr onclick="window.location.href='/player/{{ player_name }}'">
+                                <td>{{ player_name }}</td>
+                                <td>{{ stats.matches }}</td>
+                                <td>{{ stats.runs }}</td>
+                                <td>{{ stats.highest_score }}</td>
+                                <td>{{ "%.2f"|format(stats.runs / stats.matches if stats.matches > 0 else 0) }}</td>
+                                <td>{{ "%.2f"|format(stats.strike_rate) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Performance Trend Chart
+const trendCtx = document.getElementById('performanceTrendChart').getContext('2d');
+const formData = {{ team_data.form|tojson }};
+
+new Chart(trendCtx, {
+    type: 'line',
+    data: {
+        labels: Array.from({length: formData.length}, (_, i) => `Match ${i + 1}`),
+        datasets: [{
+            label: 'Form',
+            data: formData.map(result => result === 'W' ? 1 : 0),
+            borderColor: '#1E88E5',
+            tension: 0.1,
+            fill: false
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 1,
+                ticks: {
+                    callback: value => value === 1 ? 'Win' : 'Loss'
+                }
+            }
+        }
+    }
+});
+
+// Score Distribution Chart
+const scoreCtx = document.getElementById('scoreDistributionChart').getContext('2d');
+const scoreData = {
+    min: {{ team_data.lowest_score }},
+    max: {{ team_data.highest_score }},
+    avg: {{ team_data.total_runs / team_data.matches if team_data.matches > 0 else 0 }}
+};
+
+new Chart(scoreCtx, {
+    type: 'bar',
+    data: {
+        labels: ['Lowest', 'Average', 'Highest'],
+        datasets: [{
+            label: 'Scores',
+            data: [scoreData.min, scoreData.avg, scoreData.max],
+            backgroundColor: [
+                '#E53935',
+                '#1E88E5',
+                '#43A047'
+            ]
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Runs'
+                }
+            }
+        }
+    }
+});
+</script> 
